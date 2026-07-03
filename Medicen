@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🏥 Medicen 💊</title>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0b1a2e 0%, #1b2d4e 50%, #0b1a2e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .offer-card {
+            background: rgba(15, 25, 45, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 2.5rem;
+            border: 1px solid rgba(130, 180, 255, 0.5);
+            padding: 2.2rem 2rem;
+            max-width: 1400px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(120, 170, 255, 0.3) inset, 0 0 40px rgba(43, 138, 226, 0.3);
+        }
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #7dc9ff, #6b9dff, #66d1ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.3rem;
+        }
+        h1 i { background: none; font-size: 2.2rem; color: #aad4ff; filter: drop-shadow(0 0 8px #7dc9ff); -webkit-text-fill-color: #aad4ff; }
+        .sub-head {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #b8d4ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border-bottom: 1px dashed rgba(130, 180, 255, 0.5);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        .popup-settings-wrapper { text-align: center; margin-bottom: 1rem; }
+        .popup-settings-btn {
+            background: linear-gradient(135deg, #ff9800, #f44336);
+            border: none;
+            border-radius: 40px;
+            padding: 12px 28px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.5);
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .popup-settings-btn:hover { transform: scale(1.05); box-shadow: 0 0 35px rgba(255, 152, 0, 0.8); }
+        .popup-note { display: block; color: #ffcc80; font-size: 0.8rem; margin-top: 6px; }
+        .settings-panel {
+            background: rgba(20, 40, 70, 0.5);
+            border-radius: 20px;
+            padding: 15px 20px;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border: 1px solid #7ab4ff44;
+        }
+        .settings-panel label { color: #aad4ff; font-weight: 600; font-size: 0.95rem; white-space: nowrap; }
+        .settings-panel input {
+            width: 70px;
+            padding: 8px 12px;
+            border-radius: 30px;
+            border: 2px solid #7dc9ff;
+            background: #0b1a2e;
+            color: #ffd166;
+            font-weight: 700;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+        }
+        .settings-panel input:focus { border-color: #ffd166; box-shadow: 0 0 12px #ffd16655; }
+        .save-btn {
+            background: linear-gradient(135deg, #06a0d6, #0d4052);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 18px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .save-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px #06a0d6; }
+        .auto-click-wrapper { text-align: center; margin-bottom: 1.5rem; }
+        .auto-click-btn {
+            background: linear-gradient(135deg, #6b9dff, #7dc9ff);
+            border: none;
+            border-radius: 60px;
+            padding: 1rem 2.5rem;
+            color: #1a0b2e;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(107, 157, 255, 0.6);
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+        .auto-click-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(107, 157, 255, 0.9); }
+        .auto-click-btn:disabled { background: #555; cursor: not-allowed; box-shadow: none; opacity: 0.6; color: #ccc; }
+        .auto-status { display: block; margin-top: 10px; color: #ffd166; font-weight: 600; font-size: 0.95rem; min-height: 22px; }
+        .click-dashboard {
+            background: rgba(20, 40, 70, 0.6);
+            border-radius: 60px;
+            padding: 0.8rem 2rem;
+            margin-bottom: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px 25px;
+            border: 1px solid #7ab4ff66;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 20px rgba(122, 180, 255, 0.2);
+        }
+        .total-clicks { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.3rem; color: #e2f0ff; }
+        .total-clicks i { font-size: 2rem; color: #b3d4ff; filter: drop-shadow(0 0 6px #6b9dff); }
+        .click-badge {
+            background: #0b1a2ecc;
+            backdrop-filter: blur(4px);
+            padding: 8px 28px;
+            border-radius: 50px;
+            border: 1px solid #ffd166;
+            box-shadow: 0 0 15px #ffd16633;
+        }
+        .click-badge span { font-weight: 800; font-size: 2.2rem; color: #ffd166; margin-left: 10px; letter-spacing: 1px; }
+        .legend { display: flex; gap: 20px; font-size: 0.9rem; font-weight: 500; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .legend-dot { width: 16px; height: 16px; border-radius: 20px; background: #4e9ddd; box-shadow: 0 0 8px #7dc9ff; }
+        .legend-dot.used { background: #06a0d6; box-shadow: 0 0 12px #06a0d6; }
+        .btn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+        .offer-btn {
+            background: linear-gradient(135deg, #1e3c6b, #152a48);
+            border: none;
+            border-radius: 60px;
+            padding: 0.85rem 0.6rem;
+            color: #edf5ff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 0 1.5px #2c7abf inset;
+            width: 100%;
+            text-decoration: none;
+            position: relative;
+            border: 1px solid #4e9ddd55;
+        }
+        .offer-btn i { font-size: 1.2rem; color: #b3d4ff; }
+        .click-counter {
+            background: #0b1a2e;
+            border-radius: 40px;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #ffd166;
+            border: 1px solid #ffb347;
+            margin-left: 4px;
+        }
+        .offer-btn.clicked { background: linear-gradient(135deg, #0d4052, #072b3b); border: 1.5px solid #06a0d6; box-shadow: 0 0 18px #06a0d6, 0 0 0 1.5px #ffd166 inset; }
+        .offer-btn.clicked i { color: #ffea9f; }
+        .offer-btn.clicked .click-counter { background: #0a2833; color: #ffeaa6; border-color: #ffd966; }
+        .offer-btn:hover { transform: translateY(-4px) scale(1.03); background: linear-gradient(135deg, #2c5aa0, #1e3c6b); box-shadow: 0 18px 28px -8px black, 0 0 0 2.5px #aad4ff inset; }
+        .section-label { font-size: 1.15rem; margin: 18px 0 8px; color: #aad4ff; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .section-label i { color: #b3d4ff; }
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            color: #b2d0ff;
+            border-top: 1px solid #7ab4ff66;
+            padding-top: 1.4rem;
+            font-size: 0.9rem;
+        }
+        .reset-link {
+            background: none;
+            border: 1.5px solid #aad4ff;
+            padding: 8px 22px;
+            border-radius: 50px;
+            color: #d6f0ff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        .reset-link:hover { background: #7ab4ff30; border-color: #ffd166; color: #ffeaaf; }
+        @media (max-width: 700px) {
+            .offer-card { padding: 1.5rem 1.2rem; }
+            h1 { font-size: 2rem; }
+            .click-dashboard { flex-direction: column; align-items: stretch; border-radius: 40px; padding: 1.2rem; }
+            .btn-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .offer-btn { padding: 0.7rem 0.5rem; font-size: 0.8rem; }
+            .auto-click-btn { font-size: 1rem; padding: 0.8rem 1.8rem; }
+            .settings-panel { flex-direction: column; gap: 10px; }
+            .popup-settings-btn { font-size: 0.9rem; padding: 10px 20px; }
+        }
+    </style>
+</head>
+<body>
+<div class="offer-card">
+    <h1><i class="fas fa-stethoscope"></i> Medicen <i class="fas fa-heartbeat"></i></h1>
+    <div class="sub-head"><i class="fas fa-notes-medical"></i> 58 MEDICAL OFFERS · ALL ACTIVE <i class="fas fa-prescription-bottle-alt"></i></div>
+
+    <!-- POPUP SETTINGS BUTTON -->
+    <div class="popup-settings-wrapper">
+        <button class="popup-settings-btn" onclick="openPopupSettings()"><i class="fas fa-cog"></i> ⚠️ ALLOW POPUPS FIRST (OPEN SETTINGS)</button>
+        <span class="popup-note">Click → Copy URL → Open new tab → Paste → Allow → Then START</span>
+    </div>
+
+    <!-- SETTINGS PANEL -->
+    <div class="settings-panel">
+        <label for="roundInput">🔄 ROUNDS:</label>
+        <input type="number" id="roundInput" value="3" min="1" max="100" onchange="saveRoundSetting()">
+        <button class="save-btn" onclick="saveRoundSetting()">💾 SAVE</button>
+        <span style="color:#06d6a0;font-size:0.85rem;" id="saveConfirm"></span>
+    </div>
+
+    <!-- AUTO CLICK BUTTON -->
+    <div class="auto-click-wrapper">
+        <button class="auto-click-btn" id="autoClickBtn" onclick="startAutoClick()">🚀 START AUTO CLICK</button>
+        <div class="auto-status" id="autoStatus">Ready · <span id="roundDisplay">3</span> round(s)</div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="click-dashboard">
+        <div class="total-clicks"><i class="fas fa-chart-pie"></i><span>💊 TOTAL CLAIMS</span></div>
+        <div class="click-badge"><i class="fas fa-fingerprint"></i> <span id="globalCounter">0</span></div>
+        <div class="legend"><div class="legend-item"><span class="legend-dot"></span> available</div><div class="legend-item"><span class="legend-dot used"></span> claimed</div></div>
+    </div>
+
+    <!-- ALL 58 OFFERS (Medical Themed) -->
+    <div class="section-label"><i class="fas fa-star"></i> 🩺 MEDICAL SUPPLIES & DEALS 💉 <i class="fas fa-star"></i></div>
+    <div class="btn-grid" id="offerGrid">
+        <!-- 1 -->
+        <a href="https://bashsecret.com/a4cqp72zjp?key=3dcf86edcbe91ef9d5ab5397feecc34e" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_1" bn="1"><i class="fas fa-syringe"></i> Smartlink_3 <span class="click-counter" id="count_1">0</span></a>
+        <!-- 2 -->
+        <a href="https://bashsecret.com/fwvipk5f6?key=5f7fadb8c5ebda1cb75f391ea4303512" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_2" bn="2"><i class="fas fa-pills"></i> Smartlink_1 <span class="click-counter" id="count_2">0</span></a>
+        <!-- 3 -->
+        <a href="https://bashsecret.com/nv3abbwbtw?key=d6cd2b1897da77b0f3f9ce6d3e1576da" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_3" bn="3"><i class="fas fa-capsules"></i> Smartlink_2 <span class="click-counter" id="count_3">0</span></a>
+        <!-- 4 -->
+        <a href="https://bashsecret.com/dbfpd83c1d?key=9685e9148b963242f9a4b91b9c4a4084" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_4" bn="4"><i class="fas fa-tablets"></i> Smartlink_4 <span class="click-counter" id="count_4">0</span></a>
+        <!-- 5 -->
+        <a href="https://bashsecret.com/ij284i8tp?key=6c70c61082566fbc88eef3b272c72b6d" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_5" bn="5"><i class="fas fa-prescription"></i> Smartlink_42 <span class="click-counter" id="count_5">0</span></a>
+        <!-- 6 -->
+        <a href="https://bashsecret.com/j83m5yjb?key=0359476f2a0677342bb597abd7029a1b" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_6" bn="6"><i class="fas fa-file-medical-alt"></i> Smartlink_13 <span class="click-counter" id="count_6">0</span></a>
+        <!-- 7 -->
+        <a href="https://bashsecret.com/dx4zvzf8?key=51d2787f541f7e584700e143893f2735" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_7" bn="7"><i class="fas fa-clinic-medical"></i> Smartlink_15 <span class="click-counter" id="count_7">0</span></a>
+        <!-- 8 -->
+        <a href="https://bashsecret.com/njdmysmbj?key=7b0c90a3a6844a1bfed897361459f07f" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_8" bn="8"><i class="fas fa-hospital-alt"></i> Smartlink_29 <span class="click-counter" id="count_8">0</span></a>
+        <!-- 9 -->
+        <a href="https://bashsecret.com/tazgb37uqu?key=6bb0a7083da9a63380b0bc024bc00a33" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_9" bn="9"><i class="fas fa-ambulance"></i> Smartlink_41 <span class="click-counter" id="count_9">0</span></a>
+        <!-- 10 -->
+        <a href="https://bashsecret.com/e61rbi74?key=168cda9f64c17d57968aaccd00fb39d7" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_10" bn="10"><i class="fas fa-microscope"></i> Smartlink_8 <span class="click-counter" id="count_10">0</span></a>
+        <!-- 11 -->
+        <a href="https://bashsecret.com/mm1fmhf89i?key=bc7605d7973f5b1dd9cf340085b9ec12" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_11" bn="11"><i class="fas fa-x-ray"></i> Smartlink_7 <span class="click-counter" id="count_11">0</span></a>
+        <!-- 12 -->
+        <a href="https://bashsecret.com/p8w4titv?key=35b25f61fe0e50d663f17b8a697af3dd" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_12" bn="12"><i class="fas fa-mri"></i> Smartlink_20 <span class="click-counter" id="count_12">0</span></a>
+        <!-- 13 -->
+        <a href="https://bashsecret.com/bsw83amu?key=f3073c8a1d0effd1f534713752e5ca11" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_13" bn="13"><i class="fas fa-heart"></i> Smartlink_30 <span class="click-counter" id="count_13">0</span></a>
+        <!-- 14 -->
+        <a href="https://bashsecret.com/uyyd09vwa?key=68f1ff00e1be3e875bc50f8764f1381f" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_14" bn="14"><i class="fas fa-brain"></i> Smartlink_31 <span class="click-counter" id="count_14">0</span></a>
+        <!-- 15 -->
+        <a href="https://bashsecret.com/xy8dnu43?key=0dafa6f34beedf8e7a694da29b31ccf6" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_15" bn="15"><i class="fas fa-eye"></i> Smartlink_38 <span class="click-counter" id="count_15">0</span></a>
+        <!-- 16 -->
+        <a href="https://bashsecret.com/uhpmdq49f3?key=17b03fb643e928797d9bb746bad15102" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_16" bn="16"><i class="fas fa-ear-listen"></i> Smartlink_32 <span class="click-counter" id="count_16">0</span></a>
+        <!-- 17 -->
+        <a href="https://bashsecret.com/dwa5muh5?key=9236db44a32b021b470555fdfb1d94a5" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_17" bn="17"><i class="fas fa-tooth"></i> Smartlink_35 <span class="click-counter" id="count_17">0</span></a>
+        <!-- 18 -->
+        <a href="https://bashsecret.com/cpvqmynj0a?key=ea856ed7609047f043fb5cf9368dce95" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_18" bn="18"><i class="fas fa-bone"></i> Smartlink_5 <span class="click-counter" id="count_18">0</span></a>
+        <!-- 19 -->
+        <a href="https://bashsecret.com/gsqxhvthw?key=b112669f7cc92fa09d2ddda5500d5acd" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_19" bn="19"><i class="fas fa-lungs"></i> Smartlink_43 <span class="click-counter" id="count_19">0</span></a>
+        <!-- 20 -->
+        <a href="https://bashsecret.com/bd8j8d0h?key=3636864f4566b1be6d3247ff24e37887" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_20" bn="20"><i class="fas fa-allergies"></i> Smartlink_6 <span class="click-counter" id="count_20">0</span></a>
+        <!-- 21 -->
+        <a href="https://bashsecret.com/igqfqm4edr?key=0872b9dda01657f19b4a5753a614fb58" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_21" bn="21"><i class="fas fa-child"></i> Smartlink_17 <span class="click-counter" id="count_21">0</span></a>
+        <!-- 22 -->
+        <a href="https://bashsecret.com/b99mb888xt?key=4d6518ad03575baa21de35f3e502d2a5" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_22" bn="22"><i class="fas fa-female"></i> Smartlink_24 <span class="click-counter" id="count_22">0</span></a>
+        <!-- 23 -->
+        <a href="https://bashsecret.com/sedsr47mw?key=9ce61b535e65d00b8d6a2aef9482c59f" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_23" bn="23"><i class="fas fa-dna"></i> Smartlink_33 <span class="click-counter" id="count_23">0</span></a>
+        <!-- 24 -->
+        <a href="https://bashsecret.com/vdzqjn0ha?key=834ab6cbbe2136cf54559a6e49f4fee1" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_24" bn="24"><i class="fas fa-vial"></i> Smartlink_39 <span class="click-counter" id="count_24">0</span></a>
+        <!-- 25 -->
+        <a href="https://bashsecret.com/gqyv3qd5?key=3ecf6250578464c4f373ca60c8a9a5d5" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_25" bn="25"><i class="fas fa-hand-holding-heart"></i> Smartlink_45 <span class="click-counter" id="count_25">0</span></a>
+        <!-- 26 -->
+        <a href="https://bashsecret.com/x2y5d6xz7q?key=5228ab4c4507fc675c7b4dd59f601d25" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_26" bn="26"><i class="fas fa-wheelchair"></i> Smartlink_12 <span class="click-counter" id="count_26">0</span></a>
+        <!-- 27 -->
+        <a href="https://bashsecret.com/ar40uzin2?key=d5e13aecbd8aff7018951264e0297a40" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_27" bn="27"><i class="fas fa-first-aid"></i> Smartlink_14 <span class="click-counter" id="count_27">0</span></a>
+        <!-- 28 -->
+        <a href="https://bashsecret.com/xum6btue9?key=f909a8a6c54b7d88906327db7c14d42d" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_28" bn="28"><i class="fas fa-band-aid"></i> Smartlink_22 <span class="click-counter" id="count_28">0</span></a>
+        <!-- 29 -->
+        <a href="https://bashsecret.com/zy43d388u?key=8853874e55b4710e2ef88b1129e2a71f" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_29" bn="29"><i class="fas fa-thermometer-half"></i> Smartlink_47 <span class="click-counter" id="count_29">0</span></a>
+        <!-- 30 -->
+        <a href="https://bashsecret.com/d3hswgumfs?key=1aeda1ebb5027343ff517528084e5e34" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_30" bn="30"><i class="fas fa-weight"></i> Smartlink_50 <span class="click-counter" id="count_30">0</span></a>
+        <!-- 31 -->
+        <a href="https://bashsecret.com/tj2tb919pb?key=40c97aa2c876155cb2da04a7b8281d41" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_31" bn="31"><i class="fas fa-pump-medical"></i> Smartlink_16 <span class="click-counter" id="count_31">0</span></a>
+        <!-- 32 -->
+        <a href="https://bashsecret.com/e6craxnt?key=018ef5101e2c735fa33cf3b444945918" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_32" bn="32"><i class="fas fa-lungs-virus"></i> Smartlink_19 <span class="click-counter" id="count_32">0</span></a>
+        <!-- 33 -->
+        <a href="https://bashsecret.com/k1wu1s2ed?key=6c4ca1f300fe5159d2b616816e6ad9c6" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_33" bn="33"><i class="fas fa-head-side-mask"></i> Smartlink_25 <span class="click-counter" id="count_33">0</span></a>
+        <!-- 34 -->
+        <a href="https://bashsecret.com/ay6veda4e?key=631ddf66d0098b8dfcc19d0b8c6ea883" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_34" bn="34"><i class="fas fa-procedures"></i> Smartlink_27 <span class="click-counter" id="count_34">0</span></a>
+        <!-- 35 -->
+        <a href="https://bashsecret.com/n68e1srnz4?key=3cd8f3c014d862c83cae7ff9fd201003" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_35" bn="35"><i class="fas fa-crutch"></i> Smartlink_28 <span class="click-counter" id="count_35">0</span></a>
+        <!-- 36 -->
+        <a href="https://bashsecret.com/mhzr6nud1f?key=8ca5bdb54a4f28fbc82602e3ca9910b7" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_36" bn="36"><i class="fas fa-braille"></i> Smartlink_46 <span class="click-counter" id="count_36">0</span></a>
+        <!-- 37 -->
+        <a href="https://bashsecret.com/rgn6iqvq?key=efd827db149525a5d1500b13b77c2e0e" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_37" bn="37"><i class="fas fa-hearing"></i> Smartlink_49 <span class="click-counter" id="count_37">0</span></a>
+        <!-- 38 -->
+        <a href="https://bashsecret.com/jf6cqkand?key=a2b804dd032e9f866101583b202674df" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_38" bn="38"><i class="fas fa-glasses"></i> Smartlink_52 <span class="click-counter" id="count_38">0</span></a>
+        <!-- 39 -->
+        <a href="https://bashsecret.com/r372batgt?key=f4e879b15c76a7b1a8551370e3078853" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_39" bn="39"><i class="fas fa-eye-dropper"></i> Smartlink_9 <span class="click-counter" id="count_39">0</span></a>
+        <!-- 40 -->
+        <a href="https://bashsecret.com/dee9mide1d?key=7e82dcd2cfd75e058a9a686431509bfd" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_40" bn="40"><i class="fas fa-mortar-pestle"></i> Smartlink_10 <span class="click-counter" id="count_40">0</span></a>
+        <!-- 41 -->
+        <a href="https://bashsecret.com/hpv2890sav?key=9b6610a5cf07b5df4d543440f085e4af" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_41" bn="41"><i class="fas fa-notes-medical"></i> Smartlink_37 <span class="click-counter" id="count_41">0</span></a>
+        <!-- 42 -->
+        <a href="https://bashsecret.com/h7324jh1?key=c6766f1728ce11e61f610a9a297db909" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_42" bn="42"><i class="fas fa-clipboard-list"></i> Smartlink_26 <span class="click-counter" id="count_42">0</span></a>
+        <!-- 43 -->
+        <a href="https://bashsecret.com/w1rdq94e7?key=48933b8eb57be881a8422abe49c260a1" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_43" bn="43"><i class="fas fa-user-md"></i> Smartlink_11 <span class="click-counter" id="count_43">0</span></a>
+        <!-- 44 -->
+        <a href="https://bashsecret.com/x6b3rv3gi4?key=7f6f3a018ecc3d299dccbc894d0d79a8" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_44" bn="44"><i class="fas fa-nurse"></i> Smartlink_18 <span class="click-counter" id="count_44">0</span></a>
+        <!-- 45 -->
+        <a href="https://bashsecret.com/izskujctac?key=3492e989d8cf3b96bfb55eeae9b7092c" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_45" bn="45"><i class="fas fa-star-of-life"></i> Smartlink_34 <span class="click-counter" id="count_45">0</span></a>
+        <!-- 46 -->
+        <a href="https://bashsecret.com/e3zmzyap0?key=0d7916ed4c91e002ef6caa1bc4ffa2ba" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_46" bn="46"><i class="fas fa-syringe"></i> Smartlink_44 <span class="click-counter" id="count_46">0</span></a>
+        <!-- 47 -->
+        <a href="https://bashsecret.com/tj181y5x4?key=6a93f832f9a77f6a58f8463713105ae9" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_47" bn="47"><i class="fas fa-pills"></i> Smartlink_21 <span class="click-counter" id="count_47">0</span></a>
+        <!-- 48 -->
+        <a href="https://bashsecret.com/r8nqxcrf5?key=908378bd68016b4cc322299061193a2e" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_48" bn="48"><i class="fas fa-capsules"></i> Smartlink_23 <span class="click-counter" id="count_48">0</span></a>
+        <!-- 49 -->
+        <a href="https://bashsecret.com/rzy1mfegw?key=afae3a9f2f965f19540c86192b573050" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_49" bn="49"><i class="fas fa-tablets"></i> Smartlink_36 <span class="click-counter" id="count_49">0</span></a>
+        <!-- 50 -->
+        <a href="https://bashsecret.com/rfh8621h?key=5e754a68c436b165dc54d78fe5332027" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_50" bn="50"><i class="fas fa-prescription"></i> Smartlink_40 <span class="click-counter" id="count_50">0</span></a>
+        <!-- 51 -->
+        <a href="https://bashsecret.com/gdf3p4hta?key=45929f4708a11dd794e00cf6ab213912" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_51" bn="51"><i class="fas fa-file-medical-alt"></i> Smartlink_56 <span class="click-counter" id="count_51">0</span></a>
+        <!-- 52 -->
+        <a href="https://bashsecret.com/gn3ssmvzj?key=bdf253d928c59fa562da38a9d881db1a" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_52" bn="52"><i class="fas fa-clinic-medical"></i> Smartlink_57 <span class="click-counter" id="count_52">0</span></a>
+        <!-- 53 -->
+        <a href="https://bashsecret.com/t6vfdgw4v6?key=c1f65fc90618ea3aff2c58a3e5a5edd5" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_53" bn="53"><i class="fas fa-hospital-alt"></i> Smartlink_51 <span class="click-counter" id="count_53">0</span></a>
+        <!-- 54 -->
+        <a href="https://bashsecret.com/i9mbfb2mwj?key=afc3e99b7ce589097c2994b09246bd83" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_54" bn="54"><i class="fas fa-ambulance"></i> Smartlink_53 <span class="click-counter" id="count_54">0</span></a>
+        <!-- 55 -->
+        <a href="https://bashsecret.com/jgt36fs6?key=5affaf062b70f12d5137a433c691e1f7" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_55" bn="55"><i class="fas fa-microscope"></i> Smartlink_54 <span class="click-counter" id="count_55">0</span></a>
+        <!-- 56 -->
+        <a href="https://bashsecret.com/y89fmw7q?key=4931ca267bb816cb7af63a96f23bd9c3" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_56" bn="56"><i class="fas fa-x-ray"></i> Smartlink_58 <span class="click-counter" id="count_56">0</span></a>
+        <!-- 57 -->
+        <a href="https://bashsecret.com/xcei1uhu?key=065a99da45a3d01edcdfc089d63509b7" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_57" bn="57"><i class="fas fa-mri"></i> Smartlink_48 <span class="click-counter" id="count_57">0</span></a>
+        <!-- 58 -->
+        <a href="https://bashsecret.com/marec9zff6?key=7105f0663b2f86258591797a02f5a0f3" target="_blank" rel="noopener noreferrer" class="offer-btn" id="btn_58" bn="58"><i class="fas fa-heart"></i> Smartlink_55 <span class="click-counter" id="count_58">0</span></a>
+    </div>
+
+    <div class="card-footer">
+        <span><i class="far fa-clock"></i> 58 active medical deals · instant access</span>
+        <div class="reset-link" onclick="resetAllCounters()"><i class="fas fa-arrows-rotate"></i> reset counters</div>
+    </div>
+</div>
+
+<script>
+    const btnsTotal = 58;
+    let cMap = {};
+    for (let i=1; i<=btnsTotal; i++) cMap['btn_'+i] = 0;
+    const STORE = 'medical_58_v2', RKEY = 'auto_rounds_medical_v2';
+
+    function lCounts() { try { let s=localStorage.getItem(STORE); if(s) { let p=JSON.parse(s); for(let k in cMap) if(typeof p[k]==='number') cMap[k]=p[k]; } } catch(e){} }
+    function sCounts() { try { localStorage.setItem(STORE, JSON.stringify(cMap)); } catch(e){} }
+    function total() { return Object.values(cMap).reduce((a,b)=>a+b,0); }
+
+    function refresh() {
+        document.getElementById('globalCounter').innerText = total();
+        for (let i=1; i<=btnsTotal; i++) {
+            let cs = document.getElementById('count_'+i), b = document.getElementById('btn_'+i);
+            if (cs && b) { let v = cMap['btn_'+i]||0; cs.innerText = v; v>0 ? b.classList.add('clicked') : b.classList.remove('clicked'); }
+        }
+    }
+
+    function inc(id) { if(cMap.hasOwnProperty(id)) { cMap[id]++; refresh(); sCounts(); } }
+
+    function resetAllCounters() { for (let i=1; i<=btnsTotal; i++) cMap['btn_'+i] = 0; refresh(); sCounts(); }
+
+    function openPopupSettings() {
+        let a = window.open('about:blank', '_blank');
+        if(a){a.document.write(`<html><head><title>Allow Popups</title><style>body{font-family:sans-serif;background:#0b1a2e;color:#fff;text-align:center;padding:40px;line-height:1.8;}.steps{background:#1b2d4e;padding:25px;border-radius:15px;display:inline-block;text-align:left;margin:20px;}.highlight{color:#ffd166;font-weight:bold;}code{background:#000;padding:4px 10px;border-radius:6px;color:#ffd166;font-size:16px;}button{background:#6b9dff;color:#1a0b2e;border:none;padding:12px 30px;border-radius:30px;font-size:16px;cursor:pointer;margin-top:15px;font-weight:bold;}</style></head><body><h1>🔓 Allow Popups</h1><div class="steps"><p>📋 <span class="highlight">Step 1:</span> Copy URL:</p><p><code>chrome://settings/content/popups</code></p><p>📌 <span class="highlight">Step 2:</span> Open new tab (Ctrl+T)</p><p>📎 <span class="highlight">Step 3:</span> Paste & Enter</p><p>🔍 <span class="highlight">Step 4:</span> Allow this site</p><p>🔄 <span class="highlight">Step 5:</span> Come back & START</p></div><button onclick="navigator.clipboard.writeText('chrome://settings/content/popups').then(function(){}).catch(function(){})">📋 COPY SETTINGS URL</button></body></html>`);a.document.close();}
+    }
+
+    function gRounds() { try { let s=localStorage.getItem(RKEY); return s ? parseInt(s) : 3; } catch(e){ return 3; } }
+    function saveRoundSetting() {
+        let inp = document.getElementById('roundInput'), cf = document.getElementById('saveConfirm');
+        let v = parseInt(inp.value); if(isNaN(v)||v<1) v=1; if(v>100) v=100;
+        inp.value = v; localStorage.setItem(RKEY, v);
+        document.getElementById('roundDisplay').innerText = v;
+        cf.innerText = '✅ Saved: '+v+' round(s)'; setTimeout(()=>cf.innerText='',2000);
+    }
+    function loadRounds() { let r = gRounds(); document.getElementById('roundInput').value = r; document.getElementById('roundDisplay').innerText = r; }
+
+    let running = false;
+    function startAutoClick() {
+        if(running){alert('⚠️ Already running!');return;}
+        let btns = document.querySelectorAll('.offer-btn');
+        if(!btns.length){alert('❌ No buttons!');return;}
+        let rds = gRounds(), all = btns.length * rds;
+        let st = document.getElementById('autoStatus'), sBtn = document.getElementById('autoClickBtn');
+        running = true; sBtn.disabled = true; sBtn.textContent = '⏳ CLICKING...';
+        let cur = 0, round = 1, idx = 0;
+        st.textContent = '🔄 Round 1/'+rds+' · 0/'+all;
+        let t = setInterval(() => {
+            if(round>rds){clearInterval(t);st.textContent='✅ DONE! '+all+' clicks ('+btns.length+'×'+rds+')';sBtn.disabled=false;sBtn.textContent='🚀 START AUTO CLICK';running=false;return;}
+            if(idx>=btns.length){round++;idx=0;if(round>rds)return;st.textContent='🔄 Round '+round+'/'+rds+' · '+cur+'/'+all;return;}
+            let b=btns[idx],bid=b.id,url=b.href||b.getAttribute('href');
+            if(url){let a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';document.body.appendChild(a);a.click();document.body.removeChild(a);cur++;if(bid&&cMap.hasOwnProperty(bid))inc(bid);st.textContent='🔄 R'+round+'/'+rds+' · #'+cur+'/'+all+' ✅';}
+            else{cur++;st.textContent='🔄 R'+round+'/'+rds+' · #'+cur+'/'+all+' ⚠️';}
+            idx++;
+        },2000);
+    }
+
+    for(let i=1;i<=btnsTotal;i++){let b=document.getElementById('btn_'+i);if(b)b.addEventListener('click',()=>inc('btn_'+i));}
+    lCounts();loadRounds();refresh();
+    console.log('✅ Medicen 58 btns | Rounds: '+gRounds());
+</script>
+</body>
+</html>
